@@ -1,4 +1,8 @@
 /* eslint-disable react/prop-types */
+
+//handleChange, handleSurpriseMe is handled by the parent component
+//isSurpriseMe is a boolean value to show/hide the surprise me button
+
 const FormField = ({
   labelName,
   type,

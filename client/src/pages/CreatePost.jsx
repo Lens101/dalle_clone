@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import { Form, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { preview } from "../assets";
 import { getRandomPrompt } from "../utils";
@@ -23,12 +23,8 @@ const CreatePost = () => {
   const handleSubmit = (e) => {};
 
   //handle form input changes
-  const handleChange = (e) => {
-    e.preventDefault();
-    console.log(form);
-    //navigate to home page
-    navigate("/");
-  };
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   //handle surprise me button click
   const handleSurpriseMe = () => {
@@ -37,7 +33,30 @@ const CreatePost = () => {
   };
 
   //generate image using prompt call to dalle API
-  const generateImage = async () => {};
+  const generateImage = async () => {
+    if (form.prompt) {
+      try {
+        setGeneratingImg(true);
+        const response = await fetch("http://localhost:8080/api/v1/dalle", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ prompt: form.prompt }),
+        });
+        const data = await response.json();
+        console.log(data);
+        setForm({ ...form, photo: data.image_url });
+        setGeneratingImg(false);
+      } catch (error) {
+        alert(error);
+      } finally {
+        setGeneratingImg(false);
+      }
+    } else {
+      alert("Please enter a prompt");
+    }
+  };
 
   return (
     <section className="max-w-7xl mx-auto">
@@ -65,7 +84,7 @@ const CreatePost = () => {
             placeholder="A man wanders through the rainy streets of Tokyo, with bright neon signs, 50mm"
             value={form.prompt}
             handleChange={handleChange}
-            //show addirional button
+            //show additional button
             isSurpriseMe
             handleSurpriseMe={handleSurpriseMe}
           />

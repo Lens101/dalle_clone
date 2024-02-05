@@ -24,12 +24,11 @@ const CreatePost = () => {
     e.preventDefault();
     if (form.name && form.prompt && form.photo) {
       setLoading(true);
-
       try {
         const response = await fetch("http://localhost:8080/api/v1/post", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
+          body: JSON.stringify({ ...form }),
         });
         await response.json();
         navigate("/");
@@ -67,7 +66,6 @@ const CreatePost = () => {
         });
         const data = await response.json();
         setForm({ ...form, photo: data.image_url });
-        setGeneratingImg(false);
       } catch (error) {
         alert(error);
       } finally {

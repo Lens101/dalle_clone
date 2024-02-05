@@ -38,7 +38,10 @@ router.route("/").post(async (req, res) => {
       photo: photoUrl.url,
     });
 
-    res.status(200).json({ success: true, data: newPost });
+    //must save the new post to the database - this took me an hour to figure out so I'm leaving this comment here.
+    const savedPost = await newPost.save();
+
+    res.status(200).json({ success: true, data: savedPost });
   } catch (error) {
     res.status(500).json({
       success: false,

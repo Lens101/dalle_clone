@@ -5,7 +5,7 @@ import connectDB from "./mongodb/connect.js"; //need file extension in import as
 import dalleRoutes from "./routes/dalleRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 
-//Lets us import env vars from .env file
+//import env vars
 dotenv.config();
 
 const app = express();
@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 
 const startServer = async () => {
   try {
-    connectDB(process.env.MONGO_URI); //N.B. URI not url.
+    connectDB(process.env.MONGODB_URI);
     app.listen(8080, () => console.log("Server is running on port 8080"));
   } catch (error) {
     console.log(error);

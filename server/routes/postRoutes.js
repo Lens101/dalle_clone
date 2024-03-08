@@ -38,7 +38,7 @@ router.route("/").post(async (req, res) => {
       photo: photoUrl.url,
     });
 
-    //must save the new post to the database - this took me an hour to figure out so I'm leaving this comment here.
+    //must save the new post to Mongo
     const savedPost = await newPost.save();
 
     res.status(200).json({ success: true, data: savedPost });
